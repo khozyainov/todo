@@ -9,8 +9,8 @@ defmodule Todo.System do
     Supervisor.init(
       [
         Todo.ProcessRegistry,
+        Todo.Database,
         Todo.Cache,
-        Todo.Database
       ],
       strategy: :one_for_one
     )

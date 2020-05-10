@@ -1,11 +1,16 @@
 defmodule Todo.Server do
-  use GenServer
+  use GenServer, restart: :temporary
 
   def start_link(list_name) do
     IO.puts("Starting server")
-    GenServer.start_link(Todo.Server, list_name)
+    GenServer.start_link(Todo.Server, list_name, name: via_tuple(list_name))
   end
 
+  defp via_tuple(list_name) do
+    Todo.ProcessRegistry.via_tuple({__MODULE__, list_name})
+  end
+
+  @spec add_entry(atom | pid | {atom, any} | {:via, atom, any}, any) :: :ok
   def add_entry(todo_server, new_entry) do
     GenServer.cast(todo_server, {:add_entry, new_entry})
   end
