@@ -6,7 +6,7 @@ defmodule Todo.Metrics do
   end
 
   defp loop() do
-    Process.sleep(10_000)
+    Process.sleep(:timer.seconds(60))
     IO.inspect(collect_metrics())
     loop()
   end
